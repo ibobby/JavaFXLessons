@@ -1,8 +1,6 @@
 package ru.bobby.adress.model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 import java.time.LocalDate;
 
@@ -22,8 +20,13 @@ public class Person {
         this(null, null);
     }
 
-    public Person(StringProperty firstName, StringProperty lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Person(String firstName, String lastName) {
+        this.firstName = new SimpleStringProperty(firstName);
+        this.lastName = new SimpleStringProperty(lastName);
+
+        this.street = new SimpleStringProperty("some street");
+        this.postalCode = new SimpleIntegerProperty(12345);
+        this.city = new SimpleStringProperty("some city");
+        this.birthday = new SimpleObjectProperty<LocalDate>(LocalDate.of(1999, 2, 1));
     }
 }
