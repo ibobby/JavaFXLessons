@@ -98,4 +98,32 @@ public class PersonOverviewController {
 
     }
 
+    @FXML
+    private void handleNewPerson() {
+        Person tempPerson = new Person();
+        boolean okClicked = mainApp.showPersonEditDialog(tempPerson);
+
+        if (okClicked) {
+            mainApp.getPersonData().add(tempPerson);
+        }
+    }
+
+    @FXML
+    private void handleEditPerson() {
+        Person selectedPerson = personTable.getSelectionModel().getSelectedItem();
+
+        if (selectedPerson != null) {
+            boolean okClicked = mainApp.showPersonEditDialog(selectedPerson);
+            if (okClicked) {
+                showPersonDetails(selectedPerson);
+            }
+        } else {
+            Dialogs.create()
+                    .title("No selection")
+                    .masthead("No Person Selected")
+                    .message("Please select a person in the table")
+                    .showWarning();
+        }
+    }
+
 }
