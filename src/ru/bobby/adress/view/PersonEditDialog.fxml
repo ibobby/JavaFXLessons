@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.bobby.adress.view.PersonEditDialogController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.bobby.adress.view.PersonEditDialogController">
     <children>
         <GridPane prefHeight="380.0" prefWidth="400.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="30.0">
             <columnConstraints>
@@ -40,6 +40,6 @@
             </opaqueInsets>
         </GridPane>
         <Button layoutX="318.0" layoutY="253.0" mnemonicParsing="false" onAction="#handleCancel" prefHeight="25.0" prefWidth="101.0" text="Cancel" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="20.0" />
-        <Button layoutX="161.0" layoutY="260.0" mnemonicParsing="false" onAction="#handleOk" prefHeight="25.0" prefWidth="107.0" text="OK" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="132.0" />
+        <Button defaultButton="true" layoutX="161.0" layoutY="260.0" mnemonicParsing="false" onAction="#handleOk" prefHeight="25.0" prefWidth="107.0" text="OK" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="132.0" />
     </children>
 </AnchorPane>
