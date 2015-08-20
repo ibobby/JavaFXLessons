@@ -15,7 +15,9 @@ import ru.bobby.adress.model.Person;
 import ru.bobby.adress.view.PersonEditDialogController;
 import ru.bobby.adress.view.PersonOverviewController;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.prefs.Preferences;
 
 /**
  * Created by b.istomin on 10.08.2015.
@@ -118,6 +120,27 @@ public class MainApp extends Application {
         } catch (IOException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public File getPersonFilePath() {
+        Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+        String filePath = prefs.get("filePath", null);
+        if (filePath != null) {
+            return new File(filePath);
+        } else {
+            return null;
+        }
+    }
+
+    public void setPersonFilePath(File file) {
+        Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+        if (file != null) {
+            prefs.put("filePath", file.getPath());
+            primaryStage.setTitle("AddressApp" + file.getName());
+        } else {
+            prefs.remove("filePath");
+            primaryStage.setTitle("AddressApp");
         }
     }
 
