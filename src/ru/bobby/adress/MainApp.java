@@ -11,10 +11,17 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.controlsfx.dialog.Dialog;
+import org.controlsfx.dialog.Dialogs;
 import ru.bobby.adress.model.Person;
 import ru.bobby.adress.view.PersonEditDialogController;
+import ru.bobby.adress.view.PersonListWrapper;
 import ru.bobby.adress.view.PersonOverviewController;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.IOException;
 import java.util.prefs.Preferences;
@@ -141,6 +148,47 @@ public class MainApp extends Application {
         } else {
             prefs.remove("filePath");
             primaryStage.setTitle("AddressApp");
+        }
+    }
+
+    public void loadPersonDataFromFile(File file) {
+        try {
+            JAXBContext context = JAXBContext.newInstance(MainApp.class);
+            Unmarshaller un = context.createUnmarshaller();
+
+            PersonListWrapper wrapper = (PersonListWrapper) un.unmarshal(file);
+
+            personData.clear();
+            personData.addAll(wrapper.getPersons());
+
+            setPersonFilePath(file);
+
+        } catch (Exception e) {
+            Dialogs.create().
+                    title("Error")
+                    .masthead("Could not load data from file:\n" + file.getPath())
+                    .showException(e);
+        }
+    }
+
+    public void savePersonDataToFile(File file) {
+        try {
+            JAXBContext context = JAXBContext.newInstance(MainApp.class);
+            Marshaller m = context.createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            PersonListWrapper wrapper = new PersonListWrapper();
+            wrapper.setPersons(personData);
+
+            m.marshal(wrapper, file);
+
+            setPersonFilePath(file);
+
+        } catch (Exception e) {
+            Dialogs.create().
+                    title("Error")
+                    .masthead("Could not save data to file:\n" + file.getPath())
+                    .showException(e);
         }
     }
 
