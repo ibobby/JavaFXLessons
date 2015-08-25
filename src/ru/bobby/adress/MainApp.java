@@ -3,7 +3,6 @@ package ru.bobby.adress;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -11,15 +10,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.controlsfx.dialog.Dialog;
 import org.controlsfx.dialog.Dialogs;
 import ru.bobby.adress.model.Person;
 import ru.bobby.adress.view.PersonEditDialogController;
 import ru.bobby.adress.view.PersonListWrapper;
 import ru.bobby.adress.view.PersonOverviewController;
+import ru.bobby.adress.view.RootLayoutController;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
@@ -70,10 +68,19 @@ public class MainApp extends Application {
 
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
+
+            RootLayoutController controller = loader.getController();
+            controller.setMainApp(this);
+
             primaryStage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        File file = getPersonFilePath();
+        if (file != null) {
+            loadPersonDataFromFile(file);
         }
 
     }
@@ -153,7 +160,7 @@ public class MainApp extends Application {
 
     public void loadPersonDataFromFile(File file) {
         try {
-            JAXBContext context = JAXBContext.newInstance(MainApp.class);
+            JAXBContext context = JAXBContext.newInstance(PersonListWrapper.class);
             Unmarshaller un = context.createUnmarshaller();
 
             PersonListWrapper wrapper = (PersonListWrapper) un.unmarshal(file);
@@ -173,7 +180,7 @@ public class MainApp extends Application {
 
     public void savePersonDataToFile(File file) {
         try {
-            JAXBContext context = JAXBContext.newInstance(MainApp.class);
+            JAXBContext context = JAXBContext.newInstance(PersonListWrapper.class);
             Marshaller m = context.createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
